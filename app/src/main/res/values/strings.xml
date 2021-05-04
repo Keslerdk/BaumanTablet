@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">BaumanTablet</string>
+
+    <string-array name="groups">
+        <item>Inbo-05-20</item>
+        <item>Inbo-06-20</item>
+        <item>Inbo-07-20</item>
+        <item>Inbo-08-20</item>
+        <item>Inbo-09-20</item>
+    </string-array>
 </resources>
