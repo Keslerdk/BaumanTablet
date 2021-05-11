@@ -3,6 +3,8 @@ package com.example.baumantablet;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class TabletActivity extends AppCompatActivity {
@@ -32,6 +35,9 @@ public class TabletActivity extends AppCompatActivity {
     TextView numberOfWeek;
 
     Calendar calendar;
+
+    RecyclerView tabletRV;
+    TabletRVAdapter tabletRVAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,17 @@ public class TabletActivity extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
         setSelectedData(calendar);
+
+        ArrayList<TabletModel> items = new ArrayList<>();
+        items.add(new TabletModel("Линейна алгебра и аналитическая геометрия", "2"));
+        items.add(new TabletModel("Линейна алгебра и аналитическая геометрия", "2"));
+        items.add(new TabletModel("Линейна алгебра и аналитическая геометрия", "3"));
+        items.add(new TabletModel("Линейна алгебра и аналитическая геометрия", "4"));
+
+        tabletRV = findViewById(R.id.recyclerView);
+        tabletRVAdapter = new TabletRVAdapter(items);
+        tabletRV.setLayoutManager(new LinearLayoutManager(this));
+        tabletRV.setAdapter(tabletRVAdapter);
 
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
