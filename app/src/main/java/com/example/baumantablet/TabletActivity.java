@@ -18,8 +18,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 public class TabletActivity extends AppCompatActivity {
+    private static final String TAG = "TabletActivity";
 
     CalendarView calendarView;
 
@@ -28,6 +30,8 @@ public class TabletActivity extends AppCompatActivity {
     TextView weekDay;
     TextView dayOfMounth;
     TextView numberOfWeek;
+
+    Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +46,57 @@ public class TabletActivity extends AppCompatActivity {
         dayOfMounth = findViewById(R.id.dayOfMounth);
         numberOfWeek = findViewById(R.id.numberOfWeek);
 
+        calendar = Calendar.getInstance();
+        setSelectedData(calendar);
+
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                weekDay.setText(String.valueOf(dayOfMonth));
-                dayOfMounth.setText(String.valueOf(dayOfMonth));
-                numberOfWeek.setText(String.valueOf(dayOfMonth));
+
+                calendar.set(year, month, dayOfMonth);
+                setSelectedData(calendar);
+
             }
         });
 
+
 //        new GetTavletAsycTask().execute();
+    }
+
+    public void setSelectedData(Calendar calendar) {
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int numOfWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+        Log.d(TAG, "setSelectedData: " + numOfWeek);
+        switch (dayOfWeek) {
+            case Calendar.MONDAY:
+                weekDay.setText("Понедельник,");
+                break;
+            case Calendar.TUESDAY:
+                weekDay.setText("Вторник,");
+                break;
+            case Calendar.WEDNESDAY:
+                weekDay.setText("Среда,");
+                break;
+            case Calendar.THURSDAY:
+                weekDay.setText("Четверг,");
+                break;
+            case Calendar.FRIDAY:
+                weekDay.setText("Пятница,");
+                break;
+            case Calendar.SATURDAY:
+                weekDay.setText("Суббота,");
+                break;
+            case Calendar.SUNDAY:
+                weekDay.setText("Воскресенье,");
+                break;
+        }
+
+        if (numOfWeek <= 23 && numOfWeek >= 7) numberOfWeek.setText(String.valueOf(numOfWeek-6));
+        else if (numOfWeek>=36) numberOfWeek.setText(String.valueOf(numOfWeek-35));
+        else numberOfWeek.setText("0");
+        dayOfMounth.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+
     }
 
     private class GetTavletAsycTask extends AsyncTask<Void, Void, Void> {
